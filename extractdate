@@ -1,0 +1,22 @@
+Function ExtractDateAfterEffective(cell As String) As String
+    Dim regex As Object
+    Dim match As Object
+    Dim pattern As String
+    
+    ' Regular expression pattern to find the date after "effective"
+    pattern = "effective\s+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}[/-]\d{1,2}[/-]\d{1,2})"
+
+    ' Create a RegExp object
+    Set regex = CreateObject("VBScript.RegExp")
+    regex.Pattern = pattern
+    regex.IgnoreCase = True
+    regex.Global = False
+    
+    ' Find the match
+    If regex.Test(cell) Then
+        Set match = regex.Execute(cell)
+        ExtractDateAfterEffective = Trim(Split(match(0), "effective")(1)) ' Extract the date part
+    Else
+        ExtractDateAfterEffective = "No Date Found"
+    End If
+End Function
