@@ -1,0 +1,22 @@
+Function ExtractCompanyAfterRE(cell As String) As String
+    Dim regex As Object
+    Dim match As Object
+    Dim pattern As String
+    
+    ' Regular expression pattern to find the company name after "RE:"
+    pattern = "RE:\s*([A-Za-z0-9&\-,.\s]+)"
+
+    ' Create a RegExp object
+    Set regex = CreateObject("VBScript.RegExp")
+    regex.Pattern = pattern
+    regex.IgnoreCase = True
+    regex.Global = False
+    
+    ' Find the match
+    If regex.Test(cell) Then
+        Set match = regex.Execute(cell)
+        ExtractCompanyAfterRE = Trim(Split(match(0), "RE:")(1)) ' Extract the company part
+    Else
+        ExtractCompanyAfterRE = "No Company Found"
+    End If
+End Function
